@@ -1,11 +1,11 @@
 package calculate.rules;
 
 import calculate.Utils;
-import calculate.expressions.BasicExpression;
+import calculate.expressions.Expression;
 import calculate.expressions.IntExpression;
 import calculate.metadata.Operator;
 
-public class AddRuleApplier extends AbstractRuleApplier<BasicExpression> {
+public class AddRuleApplier extends AbstractRuleApplier {
 
   @Override
   public int getPriority() {
@@ -13,22 +13,22 @@ public class AddRuleApplier extends AbstractRuleApplier<BasicExpression> {
   }
 
   @Override
-  public boolean applicable(BasicExpression basicExpression) {
-    return basicExpression.getOp().equals(Operator.ADD);
+  public boolean applicable(Expression e) {
+    return e.getOp().equals(Operator.ADD);
   }
 
   @Override
-  public BasicExpression apply(BasicExpression basicExpression) {
-    if (basicExpression instanceof IntExpression ie) {
+  public Expression apply(Expression e) {
+    if (e instanceof IntExpression ie) {
 
-      if (ie.getData1() > 10 && ie.getData2() > 10) {
+      if (ie.getN1() > 10 && ie.getN2() > 10) {
         if (Utils.getRandom().nextBoolean()) {
-          ie.setData1(ie.getData1() % 10);
+          ie.setN1(ie.getN1() % 10);
         } else {
-          ie.setData2(ie.getData2() % 10);
+          ie.setN2(ie.getN2() % 10);
         }
       }
     }
-    return basicExpression;
+    return e;
   }
 }

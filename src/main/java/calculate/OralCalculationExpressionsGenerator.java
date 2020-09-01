@@ -5,7 +5,7 @@ import static calculate.metadata.Operator.SUB;
 
 import calculate.expressions.Expression;
 import calculate.expressions.FloatExpression;
-import calculate.expressions.IntExpression;
+import calculate.expressions.NumberExpression;
 import calculate.metadata.DataType;
 import calculate.rules.DivRuleApplier;
 import calculate.rules.MulDivExponentRuleApplier;
@@ -36,7 +36,7 @@ public class OralCalculationExpressionsGenerator implements CalculationTestingGe
       switch (dataType) {
         case INT:
           expressions.add(orderedRulesApplier
-              .apply(new IntExpression(Utils.newFactor(100), Utils.newFactor(100),
+              .apply(new NumberExpression(Utils.newFactor(100), Utils.newFactor(100),
                   Utils.getAnyOperator())));
           break;
         case FLOAT:

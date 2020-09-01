@@ -2,9 +2,9 @@ package calculate.rules;
 
 import calculate.expressions.Expression;
 
-public interface RuleApplier<E extends Expression> {
+public interface RuleApplier {
 
-  boolean applicable(E basicExpression);
+  boolean applicable(Expression e);
 
-  E apply(E e);
+  Expression apply(Expression e);
 }

@@ -1,11 +1,11 @@
 package calculate.rules;
 
-import calculate.expressions.BasicExpression;
+import calculate.Utils;
+import calculate.expressions.Expression;
 import calculate.expressions.IntExpression;
 import calculate.metadata.Operator;
-import java.util.Random;
 
-public class OralMulRuleApplier extends AbstractRuleApplier<BasicExpression> {
+public class OralMulRuleApplier extends AbstractRuleApplier {
 
   @Override
   public int getPriority() {
@@ -13,36 +13,35 @@ public class OralMulRuleApplier extends AbstractRuleApplier<BasicExpression> {
   }
 
   @Override
-  public boolean applicable(BasicExpression basicExpression) {
-    return basicExpression.getOp().equals(Operator.MUL);
+  public boolean applicable(Expression e) {
+    return e.getOp().equals(Operator.MUL);
   }
 
   @Override
-  public BasicExpression apply(BasicExpression basicExpression) {
-    Random random = new Random();
-    if (basicExpression instanceof IntExpression intExpression) {
-      if (intExpression.getData1() > 10 && intExpression.getData2() > 10) {
-        if (random.nextBoolean()) {
-          intExpression.setData1(intExpression.getData1() / 10);
+  public Expression apply(Expression e) {
+    if (e instanceof IntExpression ie) {
+      if (ie.getN1() > 10 && ie.getN2() > 10) {
+        if (Utils.getRandom().nextBoolean()) {
+          ie.setN1(ie.getN1() / 10);
         } else {
-          intExpression.setData2(intExpression.getData2() / 10);
+          ie.setN2(ie.getN2() / 10);
         }
       }
-      if (intExpression.getData1() < 10 && intExpression.getData2() < 10) {
+      if (ie.getN1() < 10 && ie.getN2() < 10) {
         int newData = 0;
         while (newData < 10) {
-          newData = random.nextInt(100);
+          newData = Utils.getRandom().nextInt(100);
         }
-        if (random.nextBoolean()) {
-          intExpression.setData1(newData);
-          intExpression.setData2(intExpression.getData2());
+        if (Utils.getRandom().nextBoolean()) {
+          ie.setN1(newData);
+          ie.setN2(ie.getN2());
         } else {
-          intExpression.setData1(intExpression.getData1());
-          intExpression.setData2(newData);
+          ie.setN1(ie.getN1());
+          ie.setN2(newData);
         }
       }
-      return intExpression;
+      return ie;
     }
-    return basicExpression;
+    return e;
   }
 }

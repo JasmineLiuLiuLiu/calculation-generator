@@ -4,7 +4,7 @@ import static calculate.metadata.Operator.ADD;
 import static calculate.metadata.Operator.SUB;
 
 import calculate.expressions.Expression;
-import calculate.expressions.IntExpression;
+import calculate.expressions.NumberExpression;
 import calculate.rules.AddRuleApplier;
 import calculate.rules.OrderedRulesApplier;
 import calculate.rules.SubRuleApplier;
@@ -27,7 +27,7 @@ public class KidCalculationExpressionsGenerator implements CalculationTestingGen
     IntStream.range(0, amount).parallel().forEach(i ->
         expressions.add(
             new OrderedRulesApplier(Arrays.asList(new AddRuleApplier(), new SubRuleApplier()))
-                .apply(new IntExpression(Utils.newFactor(20), Utils.newFactor(20),
+                .apply(new NumberExpression(Utils.newFactor(20), Utils.newFactor(20),
                     Utils.getAnyOperator(ADD, SUB)))));
     return expressions;
   }

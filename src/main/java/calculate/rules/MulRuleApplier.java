@@ -3,13 +3,13 @@ package calculate.rules;
 import static calculate.metadata.Operator.ADD;
 
 import calculate.Utils;
-import calculate.expressions.BasicExpression;
 import calculate.expressions.CompositeExpression;
+import calculate.expressions.Expression;
 import calculate.expressions.IntExpression;
 import calculate.metadata.Operator;
 
 
-public class MulRuleApplier extends AbstractRuleApplier<BasicExpression> {
+public class MulRuleApplier extends AbstractRuleApplier {
 
   @Override
   public int getPriority() {
@@ -17,24 +17,24 @@ public class MulRuleApplier extends AbstractRuleApplier<BasicExpression> {
   }
 
   @Override
-  public boolean applicable(BasicExpression basicExpression) {
+  public boolean applicable(Expression basicExpression) {
     return basicExpression.getOp().equals(Operator.MUL);
   }
 
   @Override
-  public BasicExpression apply(BasicExpression be) {
-    if (be instanceof IntExpression ie) {
-      ie.setData1(dataAdjust(ie.getData1()));
-      ie.setData2(dataAdjust(ie.getData2()));
+  public Expression apply(Expression e) {
+    if (e instanceof IntExpression ie) {
+      ie.setN1(dataAdjust(ie.getN1()));
+      ie.setN2(dataAdjust(ie.getN2()));
     }
-    if (be instanceof CompositeExpression ce) {
-      if ((Integer) ce.getBe().result() > 100) {
+    if (e instanceof CompositeExpression ce) {
+      if ((Integer) ce.getN1().result() > 100) {
         ce.setOp(ADD);
       } else {
-        ce.setData2(dataAdjust((Integer) ce.getData2()));
+        ce.setN2(dataAdjust((Integer) ce.getN2()));
       }
     }
-    return be;
+    return e;
   }
 
   private int dataAdjust(int i) {

@@ -5,25 +5,31 @@ import static calculate.metadata.Operator.SUB;
 
 import calculate.metadata.Operator;
 
-public class CompositeExpression<D extends Number> extends BasicExpression<D> {
+public class CompositeExpression implements Expression<IntExpression, Integer, Integer> {
 
-  private final BasicExpression<D> be;
+  private final IntExpression n1;
   private Operator op;
-  private D data2;
+  private Integer n2;
   private boolean shouldReversed;
 
-  public CompositeExpression(BasicExpression<D> be, D data2, Operator op) {
-    super(be);
-    this.be = be;
-    this.data2 = data2;
+  public CompositeExpression(IntExpression n1, Integer n2, Operator op) {
+    this.n1 = n1;
+    this.n2 = n2;
     this.op = op;
     shouldReversed = false;
   }
 
-  public BasicExpression<D> getBe() {
-    return be;
+  @Override
+  public IntExpression getN1() {
+    return n1;
   }
 
+  @Override
+  public Integer getN2() {
+    return n2;
+  }
+
+  @Override
   public Operator getOp() {
     return op;
   }
@@ -32,14 +38,8 @@ public class CompositeExpression<D extends Number> extends BasicExpression<D> {
     this.op = op;
   }
 
-  @Override
-  public D getData2() {
-    return data2;
-  }
-
-  @Override
-  public void setData2(D data2) {
-    this.data2 = data2;
+  public void setN2(Integer n2) {
+    this.n2 = n2;
   }
 
   public boolean isShouldReversed() {
@@ -51,35 +51,34 @@ public class CompositeExpression<D extends Number> extends BasicExpression<D> {
   }
 
   @Override
-  public String getPrintFormat() {
-    return null;
+  public Integer result() {
+    if (shouldReversed) {
+      return (Integer) op.getCalculator().apply(n2, n1.result());
+    } else {
+      return (Integer) op.getCalculator().apply(n1.result(), n2);
+    }
   }
 
   @Override
   public String print() {
     if (shouldReversed) {
-      if (op.getPriority() > be.getOp().getPriority() || (
-          op.getPriority() == be.getOp().getPriority() && (op.equals(SUB) || op.equals(DIV)))) {
-        return String.format("%d%s(%s)", data2, op.print(), be.print());
+      if (op.getPriority() > n1.getOp().getPriority() || (
+          op.getPriority() == n1.getOp().getPriority() && (op.equals(SUB) || op.equals(DIV)))) {
+        return String.format("%d%s(%s)", n2, op.print(), n1.print());
       } else {
-        return String.format("%d%s%s", data2, op.print(), be.print());
+        return String.format("%d%s%s", n2, op.print(), n1.print());
       }
     } else {
-      if (op.getPriority() > be.getOp().getPriority()) {
-        return String.format("(%s)%s%d", be.print(), op.print(), data2);
+      if (op.getPriority() > n1.getOp().getPriority()) {
+        return String.format("(%s)%s%d", n1.print(), op.print(), n2);
       } else {
-        return String.format("%s%s%d", be.print(), op.print(), data2);
+        return String.format("%s%s%d", n1.print(), op.print(), n2);
       }
     }
   }
 
   @Override
-  public D result() {
-    if (shouldReversed) {
-      return (D) op.getCalculator().apply(data2, be.result());
-    } else {
-      return (D) op.getCalculator().apply(be.result(), data2);
-    }
+  public String toString() {
+    return print();
   }
-
 }

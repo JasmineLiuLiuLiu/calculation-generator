@@ -2,7 +2,7 @@ package calculate.expressions;
 
 import calculate.metadata.Operator;
 
-public class FloatExpression extends BasicExpression<Float> {
+public class FloatExpression extends BasicExpression<Float, Float, Float> {
 
   private final String printFormat = "%.1f%s%.1f";
 
@@ -17,6 +17,6 @@ public class FloatExpression extends BasicExpression<Float> {
 
   @Override
   public Float result() {
-    return null;
+    return (Float) getOp().getCalculator().apply(getN1(), getN2());
   }
 }

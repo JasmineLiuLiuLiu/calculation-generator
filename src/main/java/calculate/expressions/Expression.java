@@ -1,10 +1,20 @@
 package calculate.expressions;
 
-public interface Expression {
+import calculate.metadata.Operator;
 
-  Number result();
+public interface Expression<R, L, V> {
+
+  R getN1();
+
+  L getN2();
+
+  Operator getOp();
+
+  V result();
 
   String print();
 
-  String printAll();
+  default String printAll() {
+    return String.format("%s = %d", print(), result());
+  }
 }

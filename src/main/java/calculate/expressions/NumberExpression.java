@@ -2,11 +2,11 @@ package calculate.expressions;
 
 import calculate.metadata.Operator;
 
-public class IntExpression extends BasicExpression<Integer, Integer, Integer> {
+public class NumberExpression<N extends Number> extends BasicExpression<Number, Number, Number> {
 
   private final String printFormat = "%d%s%d";
 
-  public IntExpression(int d1, int d2, Operator o) {
+  public NumberExpression(N d1, N d2, Operator o) {
     super(d1, d2, o);
   }
 
@@ -16,8 +16,7 @@ public class IntExpression extends BasicExpression<Integer, Integer, Integer> {
   }
 
   @Override
-  public Integer result() {
-    return (Integer) getOp().getCalculator().apply(getN1(), getN2());
+  public Number result() {
+    return getOp().getCalculator().apply(getN1(), getN2());
   }
-
 }

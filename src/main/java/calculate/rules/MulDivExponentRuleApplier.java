@@ -3,13 +3,13 @@ package calculate.rules;
 import static calculate.metadata.Operator.MUL;
 
 import calculate.Utils;
-import calculate.expressions.BasicExpression;
+import calculate.expressions.Expression;
 import calculate.expressions.IntExpression;
 import java.util.Arrays;
 import java.util.Random;
 
 
-public class MulDivExponentRuleApplier extends AbstractRuleApplier<BasicExpression> {
+public class MulDivExponentRuleApplier extends AbstractRuleApplier {
 
   private final int modifier = Arrays.asList(1, 10, 100).get(new Random().nextInt(3));
 
@@ -19,21 +19,21 @@ public class MulDivExponentRuleApplier extends AbstractRuleApplier<BasicExpressi
   }
 
   @Override
-  public boolean applicable(BasicExpression basicExpression) {
-    return basicExpression.getOp().getPriority() == 1;
+  public boolean applicable(Expression e) {
+    return e.getOp().getPriority() == 1;
   }
 
   @Override
-  public BasicExpression apply(BasicExpression be) {
+  public Expression apply(Expression be) {
     if (be instanceof IntExpression ie) {
       if (ie.getOp().equals(MUL)) {
         if (Utils.getRandom().nextBoolean()) {
-          ie.setData1(ie.getData1() * modifier);
+          ie.setN1(ie.getN1() * modifier);
         } else {
-          ie.setData2(ie.getData2() * modifier);
+          ie.setN2(ie.getN2() * modifier);
         }
       } else {
-        ie.setData1(ie.getData1() * modifier);
+        ie.setN1(ie.getN1() * modifier);
       }
     }
     return be;

@@ -2,34 +2,39 @@ package calculate.expressions;
 
 import calculate.metadata.Operator;
 
-public abstract class BasicExpression<D extends Number> implements Expression {
+public abstract class BasicExpression<R, L, V> implements Expression<R, L, V> {
 
-  private D data1;
-  private D data2;
+  private R n1;
+  private L n2;
   private Operator op;
 
-  public BasicExpression(D data1, D data2, Operator op) {
-    this.data1 = data1;
-    this.data2 = data2;
+  public BasicExpression(R n1, L n2, Operator op) {
+    this.n1 = n1;
+    this.n2 = n2;
     this.op = op;
   }
 
-  public BasicExpression(BasicExpression<D> be) {
-    data1 = be.getData1();
-    data2 = be.getData2();
-    op = be.getOp();
+  @Override
+  public R getN1() {
+    return n1;
   }
 
-  public D getData2() {
-    return data2;
+  @Override
+  public L getN2() {
+    return n2;
   }
 
-  public void setData2(D data2) {
-    this.data2 = data2;
-  }
-
+  @Override
   public Operator getOp() {
     return op;
+  }
+
+  public void setN1(R n1) {
+    this.n1 = n1;
+  }
+
+  public void setN2(L n2) {
+    this.n2 = n2;
   }
 
   public void setOp(Operator op) {
@@ -38,26 +43,9 @@ public abstract class BasicExpression<D extends Number> implements Expression {
 
   public abstract String getPrintFormat();
 
-  public D getData1() {
-    return data1;
-  }
-
-  public void setData1(D data1) {
-    this.data1 = data1;
-  }
-
-  public D result() {
-    return (D) op.getCalculator().apply(data1, data2);
-  }
-
   @Override
   public String print() {
-    return String.format(getPrintFormat(), data1, op.print(), data2);
-  }
-
-  @Override
-  public String printAll() {
-    return String.format("%s = %d", print(), result());
+    return String.format(getPrintFormat(), n1, op.print(), n2);
   }
 
   @Override
