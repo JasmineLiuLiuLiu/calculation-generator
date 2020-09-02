@@ -2,26 +2,26 @@ package calculate.expressions;
 
 import calculate.metadata.Operator;
 
-public abstract class BasicExpression<R, L, V> implements Expression<R, L, V> {
+public abstract class BasicExpression<L, R, V extends Number> implements Expression<L, R, V> {
 
-  private R n1;
-  private L n2;
+  private L left;
+  private R right;
   private Operator op;
 
-  public BasicExpression(R n1, L n2, Operator op) {
-    this.n1 = n1;
-    this.n2 = n2;
+  public BasicExpression(L left, R right, Operator op) {
+    this.left = left;
+    this.right = right;
     this.op = op;
   }
 
   @Override
-  public R getN1() {
-    return n1;
+  public L getLeft() {
+    return left;
   }
 
   @Override
-  public L getN2() {
-    return n2;
+  public R getRight() {
+    return right;
   }
 
   @Override
@@ -29,12 +29,12 @@ public abstract class BasicExpression<R, L, V> implements Expression<R, L, V> {
     return op;
   }
 
-  public void setN1(R n1) {
-    this.n1 = n1;
+  public void setRight(R right) {
+    this.right = right;
   }
 
-  public void setN2(L n2) {
-    this.n2 = n2;
+  public void setLeft(L left) {
+    this.left = left;
   }
 
   public void setOp(Operator op) {
@@ -45,7 +45,7 @@ public abstract class BasicExpression<R, L, V> implements Expression<R, L, V> {
 
   @Override
   public String print() {
-    return String.format(getPrintFormat(), n1, op.print(), n2);
+    return String.format(getPrintFormat(), left, op.print(), right);
   }
 
   @Override

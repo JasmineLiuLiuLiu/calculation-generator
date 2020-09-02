@@ -5,27 +5,30 @@ import static calculate.metadata.Operator.SUB;
 
 import calculate.expressions.Expression;
 import calculate.expressions.FloatExpression;
-import calculate.expressions.NumberExpression;
+import calculate.expressions.IntExpression;
 import calculate.metadata.DataType;
-import calculate.rules.DivRuleApplier;
-import calculate.rules.MulDivExponentRuleApplier;
-import calculate.rules.OralMulRuleApplier;
-import calculate.rules.OrderedRulesApplier;
-import calculate.rules.SubRuleApplier;
+import calculate.modifiers.DifferencePositiveModifier;
+import calculate.modifiers.ExactDivIntExpressionPriorityModifier;
+import calculate.modifiers.OralMulExpressionPriorityModifier;
+import calculate.modifiers.PowerOfTenPriorityModifier;
+import calculate.modifiers.executor.PriorityModifier;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.IntStream;
 
-public class OralCalculationExpressionsGenerator implements CalculationTestingGenerator {
+public class OralCalculationExpressionsGenerator implements ExpressionGenerator {
 
   private final int amount;
-  private final OrderedRulesApplier orderedRulesApplier;
+  private final PriorityModifier priorityModifier;
 
   public OralCalculationExpressionsGenerator(int amount) {
     this.amount = amount;
-    orderedRulesApplier = new OrderedRulesApplier(Arrays.asList(new SubRuleApplier(),
-        new DivRuleApplier(), new OralMulRuleApplier(), new MulDivExponentRuleApplier()));
+    priorityModifier = new PriorityModifier(
+        Arrays.asList(new DifferencePositiveModifier(),
+            new ExactDivIntExpressionPriorityModifier(5, 100),
+            new OralMulExpressionPriorityModifier(),
+            new PowerOfTenPriorityModifier()));
   }
 
   @Override
@@ -35,12 +38,12 @@ public class OralCalculationExpressionsGenerator implements CalculationTestingGe
       DataType dataType = DataType.getDataType(Utils.getPercentageRandom(40, 0, 1));
       switch (dataType) {
         case INT:
-          expressions.add(orderedRulesApplier
-              .apply(new NumberExpression(Utils.newFactor(100), Utils.newFactor(100),
+          expressions.add(priorityModifier
+              .modify(new IntExpression(Utils.newFactor(100), Utils.newFactor(100),
                   Utils.getAnyOperator())));
           break;
         case FLOAT:
-          expressions.add(orderedRulesApplier.apply(
+          expressions.add(new DifferencePositiveModifier().modify(
               new FloatExpression(Utils.newFactor(100) * 0.1f, Utils.newFactor(100) * 0.1f,
                   Utils.getAnyOperator(ADD, SUB))));
           break;

@@ -3,7 +3,7 @@ package calculate;
 import calculate.expressions.Expression;
 import java.util.Set;
 
-public interface CalculationTestingGenerator {
+public interface ExpressionGenerator {
 
   Set<Expression> generate();
 }

@@ -3,30 +3,31 @@ package calculate;
 import static calculate.metadata.Operator.MUL;
 
 import calculate.expressions.Expression;
-import calculate.expressions.NumberExpression;
-import calculate.rules.MulRuleApplier;
-import calculate.rules.OrderedRulesApplier;
+import calculate.expressions.IntExpression;
+import calculate.modifiers.MultiplierRangeIntExpressionPriorityModifier;
+import calculate.modifiers.executor.PriorityModifier;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.IntStream;
 
-public class MulCalculationExpressionsGenerator implements CalculationTestingGenerator {
+public class MulCalculationExpressionsGenerator implements ExpressionGenerator {
 
   private static final int factorBound = 100;
   private final int amount;
-  private final OrderedRulesApplier orderedRulesApplier;
+  private final PriorityModifier priorityModifier;
 
   public MulCalculationExpressionsGenerator(int amount) {
     this.amount = amount;
-    orderedRulesApplier = new OrderedRulesApplier(Arrays.asList(new MulRuleApplier()));
+    priorityModifier = new PriorityModifier(
+        Arrays.asList(new MultiplierRangeIntExpressionPriorityModifier(10, 100)));
   }
 
   @Override
   public Set<Expression> generate() {
     Set<Expression> expressions = new HashSet<>();
-    IntStream.range(0, amount).forEach(i -> expressions.add(orderedRulesApplier.apply(
-        new NumberExpression(Utils.newFactor(factorBound), Utils.newFactor(factorBound), MUL))));
+    IntStream.range(0, amount).forEach(i -> expressions.add(priorityModifier.modify(
+        new IntExpression(Utils.newFactor(factorBound), Utils.newFactor(factorBound), MUL))));
     return expressions;
   }
 }

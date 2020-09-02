@@ -6,8 +6,8 @@ public class IntExpression extends BasicExpression<Integer, Integer, Integer> {
 
   private final String printFormat = "%d%s%d";
 
-  public IntExpression(int d1, int d2, Operator o) {
-    super(d1, d2, o);
+  public IntExpression(int left, int right, Operator op) {
+    super(left, right, op);
   }
 
   @Override
@@ -17,7 +17,7 @@ public class IntExpression extends BasicExpression<Integer, Integer, Integer> {
 
   @Override
   public Integer result() {
-    return (Integer) getOp().getCalculator().apply(getN1(), getN2());
+    return (Integer) getOp().getCalculator().apply(getLeft(), getRight());
   }
 
 }

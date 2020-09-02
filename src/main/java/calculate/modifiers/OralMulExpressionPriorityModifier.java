@@ -1,11 +1,10 @@
-package calculate.rules;
+package calculate.modifiers;
 
 import calculate.Utils;
-import calculate.expressions.Expression;
 import calculate.expressions.IntExpression;
 import calculate.metadata.Operator;
 
-public class OralMulRuleApplier extends AbstractRuleApplier {
+public class OralMulExpressionPriorityModifier implements IntExpressionPriorityModifier {
 
   @Override
   public int getPriority() {
@@ -13,31 +12,31 @@ public class OralMulRuleApplier extends AbstractRuleApplier {
   }
 
   @Override
-  public boolean applicable(Expression e) {
+  public boolean modifiable(IntExpression e) {
     return e.getOp().equals(Operator.MUL);
   }
 
   @Override
-  public Expression apply(Expression e) {
+  public IntExpression modify(IntExpression e) {
     if (e instanceof IntExpression ie) {
-      if (ie.getN1() > 10 && ie.getN2() > 10) {
+      if (ie.getRight() > 10 && ie.getLeft() > 10) {
         if (Utils.getRandom().nextBoolean()) {
-          ie.setN1(ie.getN1() / 10);
+          ie.setRight(ie.getRight() / 10);
         } else {
-          ie.setN2(ie.getN2() / 10);
+          ie.setLeft(ie.getLeft() / 10);
         }
       }
-      if (ie.getN1() < 10 && ie.getN2() < 10) {
+      if (ie.getRight() < 10 && ie.getLeft() < 10) {
         int newData = 0;
         while (newData < 10) {
           newData = Utils.getRandom().nextInt(100);
         }
         if (Utils.getRandom().nextBoolean()) {
-          ie.setN1(newData);
-          ie.setN2(ie.getN2());
+          ie.setRight(newData);
+          ie.setLeft(ie.getLeft());
         } else {
-          ie.setN1(ie.getN1());
-          ie.setN2(newData);
+          ie.setRight(ie.getRight());
+          ie.setLeft(newData);
         }
       }
       return ie;

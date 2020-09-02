@@ -6,8 +6,8 @@ public class FloatExpression extends BasicExpression<Float, Float, Float> {
 
   private final String printFormat = "%.1f%s%.1f";
 
-  public FloatExpression(float d1, float d2, Operator o) {
-    super(d1, d2, o);
+  public FloatExpression(float left, float right, Operator op) {
+    super(left, right, op);
   }
 
   @Override
@@ -17,6 +17,6 @@ public class FloatExpression extends BasicExpression<Float, Float, Float> {
 
   @Override
   public Float result() {
-    return (Float) getOp().getCalculator().apply(getN1(), getN2());
+    return (Float) getOp().getCalculator().apply(getRight(), getLeft());
   }
 }

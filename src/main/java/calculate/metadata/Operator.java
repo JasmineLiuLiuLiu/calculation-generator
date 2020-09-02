@@ -3,17 +3,45 @@ package calculate.metadata;
 import java.util.function.BiFunction;
 
 public enum Operator {
-  ADD(0, "+", (f1, f2) -> f1 + f2),
-  SUB(0, "-", (f1, f2) -> f1 - f2),
-  MUL(1, "×", (f1, f2) -> f1 * f2),
-  DIV(1, "÷", (f1, f2) -> f1 / f2);
+  ADD(0, "+", (n1, n2) -> {
+    if (n1 instanceof Integer i1 && n2 instanceof Integer i2) {
+      return i1 + i2;
+    } else if (n1 instanceof Float f1 && n2 instanceof Float f2) {
+      return f1 + f2;
+    }
+    throw new UnsupportedOperationException("Parameter should be Integer or Float.");
+  }),
+  SUB(0, "-", (n1, n2) -> {
+    if (n1 instanceof Integer i1 && n2 instanceof Integer i2) {
+      return i1 - i2;
+    } else if (n1 instanceof Float f1 && n2 instanceof Float f2) {
+      return f1 - f2;
+    }
+    throw new UnsupportedOperationException("Parameter should be Integer or Float.");
+  }),
+  MUL(1, "×", (n1, n2) -> {
+    if (n1 instanceof Integer i1 && n2 instanceof Integer i2) {
+      return i1 * i2;
+    } else if (n1 instanceof Float f1 && n2 instanceof Float f2) {
+      return f1 * f2;
+    }
+    throw new UnsupportedOperationException("Parameter should be Integer or Float.");
+  }),
+  DIV(1, "÷", (n1, n2) -> {
+    if (n1 instanceof Integer i1 && n2 instanceof Integer i2) {
+      return i1 / i2;
+    } else if (n1 instanceof Float f1 && n2 instanceof Float f2) {
+      return f1 / f2;
+    }
+    throw new UnsupportedOperationException("Parameter should be Integer or Float.");
+  });
 
 
   private final int priority;
   private final String mathSymbol;
-  private final BiFunction calculator;
+  private final BiFunction<Number, Number, Number> calculator;
 
-  Operator(int priority, String mathSymbol, BiFunction<Integer, Integer, Integer> calculator) {
+  Operator(int priority, String mathSymbol, BiFunction<Number, Number, Number> calculator) {
     this.priority = priority;
     this.mathSymbol = mathSymbol;
     this.calculator = calculator;

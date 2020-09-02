@@ -2,11 +2,11 @@ package calculate.expressions;
 
 import calculate.metadata.Operator;
 
-public interface Expression<R, L, V> {
+public interface Expression<L, R, V extends Number> {
 
-  R getN1();
+  L getLeft();
 
-  L getN2();
+  R getRight();
 
   Operator getOp();
 
