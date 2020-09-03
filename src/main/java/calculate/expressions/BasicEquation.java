@@ -2,13 +2,13 @@ package calculate.expressions;
 
 import calculate.metadata.Operator;
 
-public abstract class BasicExpression<L, R, V extends Number> implements Expression<L, R, V> {
+public abstract class BasicEquation<L, R, V> implements Equation<L, R, V> {
 
   private L left;
   private R right;
   private Operator op;
 
-  public BasicExpression(L left, R right, Operator op) {
+  public BasicEquation(L left, R right, Operator op) {
     this.left = left;
     this.right = right;
     this.op = op;
@@ -19,22 +19,22 @@ public abstract class BasicExpression<L, R, V extends Number> implements Express
     return left;
   }
 
-  @Override
-  public R getRight() {
-    return right;
+  public void setLeft(L left) {
+    this.left = left;
   }
 
   @Override
-  public Operator getOp() {
-    return op;
+  public R getRight() {
+    return right;
   }
 
   public void setRight(R right) {
     this.right = right;
   }
 
-  public void setLeft(L left) {
-    this.left = left;
+  @Override
+  public Operator getOp() {
+    return op;
   }
 
   public void setOp(Operator op) {

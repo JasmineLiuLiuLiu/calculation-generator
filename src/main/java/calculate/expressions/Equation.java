@@ -2,7 +2,7 @@ package calculate.expressions;
 
 import calculate.metadata.Operator;
 
-public interface Expression<L, R, V extends Number> {
+public interface Equation<L, R, V> {
 
   L getLeft();
 
@@ -15,6 +15,6 @@ public interface Expression<L, R, V extends Number> {
   String print();
 
   default String printAll() {
-    return String.format("%s = %d", print(), result());
+    return String.format("%s = %s", print(), result());
   }
 }

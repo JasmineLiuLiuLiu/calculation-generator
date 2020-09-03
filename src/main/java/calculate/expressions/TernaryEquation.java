@@ -5,11 +5,11 @@ import static calculate.metadata.Operator.SUB;
 
 import calculate.metadata.Operator;
 
-public class CompositeExpression extends BasicExpression<IntExpression, Integer, Integer> {
+public class TernaryEquation extends BasicEquation<IntEquation, Integer, Integer> {
 
   private boolean shouldReversed;
 
-  public CompositeExpression(IntExpression left, Integer right, Operator op) {
+  public TernaryEquation(IntEquation left, Integer right, Operator op) {
     super(left, right, op);
     shouldReversed = false;
   }
@@ -25,9 +25,9 @@ public class CompositeExpression extends BasicExpression<IntExpression, Integer,
   @Override
   public Integer result() {
     if (isShouldReversed()) {
-      return (Integer) getOp().getCalculator().apply(getLeft().result(), getRight());
-    } else {
       return (Integer) getOp().getCalculator().apply(getRight(), getLeft().result());
+    } else {
+      return (Integer) getOp().getCalculator().apply(getLeft().result(), getRight());
     }
   }
 
@@ -36,8 +36,7 @@ public class CompositeExpression extends BasicExpression<IntExpression, Integer,
     if (isShouldReversed()) {
       if (getOp().getPriority() > getLeft().getOp().getPriority() || (
           getOp().getPriority() == getLeft().getOp().getPriority() && (getOp().equals(SUB)
-              || getOp()
-              .equals(DIV)))) {
+              || getOp().equals(DIV)))) {
         return String.format("%d%s(%s)", getRight(), getOp().print(), getLeft().print());
       } else {
         return String.format("%d%s%s", getRight(), getOp().print(), getLeft().print());

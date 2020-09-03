@@ -2,11 +2,11 @@ package calculate.expressions;
 
 import calculate.metadata.Operator;
 
-public class IntExpression extends BasicExpression<Integer, Integer, Integer> {
+public class IntEquation extends NumberEquation<Integer> {
 
   private final String printFormat = "%d%s%d";
 
-  public IntExpression(int left, int right, Operator op) {
+  public IntEquation(int left, int right, Operator op) {
     super(left, right, op);
   }
 

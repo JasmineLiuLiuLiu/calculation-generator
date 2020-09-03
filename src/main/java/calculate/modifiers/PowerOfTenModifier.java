@@ -3,12 +3,18 @@ package calculate.modifiers;
 import static calculate.metadata.Operator.DIV;
 
 import calculate.Utils;
-import calculate.expressions.IntExpression;
+import calculate.expressions.IntEquation;
 import java.util.Arrays;
 import java.util.List;
 
-
-public class PowerOfTenPriorityModifier implements IntExpressionPriorityModifier {
+/**
+ * 乘法或者除法算式修改器，制造整十或者整百的乘除法。
+ * <p>
+ * 如果是乘法算式，把任一乘数×1，或者10，或者100
+ * <p>
+ * 如果是除法算式，把除数×1，或者10，或者100
+ */
+public class PowerOfTenModifier implements PriorityExpressionModifier<IntEquation> {
 
   private final List<Integer> powersOfTen = Arrays.asList(1, 10, 100);
 
@@ -18,12 +24,12 @@ public class PowerOfTenPriorityModifier implements IntExpressionPriorityModifier
   }
 
   @Override
-  public boolean modifiable(IntExpression e) {
+  public boolean modifiable(IntEquation e) {
     return e.getOp().getPriority() == 1;
   }
 
   @Override
-  public IntExpression modify(IntExpression e) {
+  public IntEquation modify(IntEquation e) {
     int random = Utils.getRandom().nextInt(powersOfTen.toArray().length);
     if (e.getOp().equals(DIV) || Utils.getRandom().nextBoolean()) {
       e.setLeft(e.getLeft() * powersOfTen.get(random));

@@ -1,9 +1,9 @@
 package calculate;
 
-import calculate.expressions.Expression;
+import calculate.expressions.Equation;
 import java.util.Set;
 
 public interface ExpressionGenerator {
 
-  Set<Expression> generate();
+  Set<Equation> generate();
 }

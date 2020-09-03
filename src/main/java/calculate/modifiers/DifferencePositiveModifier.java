@@ -1,16 +1,19 @@
 package calculate.modifiers;
 
-import calculate.expressions.Expression;
-import calculate.expressions.FloatExpression;
-import calculate.expressions.IntExpression;
+import calculate.expressions.Equation;
+import calculate.expressions.IntEquation;
+import calculate.expressions.TernaryEquation;
+import calculate.expressions.FloatEquation;
 import calculate.metadata.Operator;
 
 /**
- * Handle Subtraction: Make sure the result is not negative.
- * <p>
- * Set data1 to max(data1, data2), and set data2 to min(data1, data2).
+ * 减法算式修改器，保证差为正数。
+ *
+ * @param <E> Equation的子类，可能是{@code IntEquation}，{@code FloatEquation}或{@code
+ *            TernaryEquation}
  */
-public class DifferencePositiveModifier implements PriorityExpressionModifier<Expression> {
+public class DifferencePositiveModifier<E extends Equation> implements
+    PriorityExpressionModifier<E> {
 
   @Override
   public int getPriority() {
@@ -18,22 +21,22 @@ public class DifferencePositiveModifier implements PriorityExpressionModifier<Ex
   }
 
   @Override
-  public boolean modifiable(Expression e) {
+  public boolean modifiable(E e) {
     return e.getOp().equals(Operator.SUB);
   }
 
   @Override
-  public Expression modify(Expression e) {
-    if (e instanceof IntExpression ne) {
-      int n1 = ne.getRight();
-      int n2 = ne.getLeft();
-      ne.setRight(Integer.max(n1, n2));
-      ne.setLeft(Integer.min(n1, n2));
-    } else if (e instanceof FloatExpression fe) {
-      float n1 = fe.getRight();
-      float n2 = fe.getLeft();
-      fe.setRight(Float.max(n1, n2));
-      fe.setLeft(Float.min(n1, n2));
+  public E modify(E e) {
+    if (e instanceof IntEquation ne && ne.result() < 0) {
+      int right = ne.getRight();
+      ne.setRight(ne.getLeft());
+      ne.setLeft(right);
+    } else if (e instanceof FloatEquation fe && fe.result() < 0) {
+      float right = fe.getRight();
+      fe.setRight(fe.getLeft());
+      fe.setLeft(right);
+    } else if (e instanceof TernaryEquation ce && ce.result() < 0) {
+      ce.setShouldReversed(true);
     }
     return e;
   }
