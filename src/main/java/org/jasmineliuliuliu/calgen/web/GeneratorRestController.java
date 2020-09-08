@@ -17,7 +17,7 @@ public class GeneratorRestController {
 
   @GetMapping("/")
   public String description() {
-    return "小学生计算题<br>1. /add/$n - $n以内加法计算<br>2. /sub/$n - $n以内减法计算";
+    return "";
   }
 
   @GetMapping("/3b/oral/{count}")
