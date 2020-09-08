@@ -1,5 +1,6 @@
 package org.jasmineliuliuliu.calgen.modifiers;
 
+import org.jasmineliuliuliu.calgen.generators.EquationRequirement;
 import org.jasmineliuliuliu.calgen.models.equations.Equation;
 
 /**
@@ -9,7 +10,7 @@ import org.jasmineliuliuliu.calgen.models.equations.Equation;
  */
 public interface EquationModifier<E extends Equation> {
 
-  boolean modifiable(E e);
+  boolean modifiable(E e, EquationRequirement req);
 
-  E modify(E e);
+  E modify(E e, EquationRequirement req);
 }

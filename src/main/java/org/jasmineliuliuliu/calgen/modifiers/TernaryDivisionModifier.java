@@ -6,6 +6,7 @@ import static org.jasmineliuliuliu.calgen.models.Operator.MUL;
 import static org.jasmineliuliuliu.calgen.models.Operator.SUB;
 
 import org.jasmineliuliuliu.calgen.Utils;
+import org.jasmineliuliuliu.calgen.generators.EquationRequirement;
 import org.jasmineliuliuliu.calgen.models.equations.TernaryEquation;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +20,12 @@ public class TernaryDivisionModifier implements
   }
 
   @Override
-  public boolean modifiable(TernaryEquation e) {
+  public boolean modifiable(TernaryEquation e, EquationRequirement req) {
     return e.getOp().equals(DIV);
   }
 
   @Override
-  public TernaryEquation modify(TernaryEquation e) {
+  public TernaryEquation modify(TernaryEquation e, EquationRequirement req) {
     int leftResult = e.getLeft().result();
     if (leftResult > 100) {
       // 如果左边等式结果大于100，无法进行除法算式的生成

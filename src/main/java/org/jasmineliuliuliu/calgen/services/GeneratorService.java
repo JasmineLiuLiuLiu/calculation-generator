@@ -1,8 +1,11 @@
 package org.jasmineliuliuliu.calgen.services;
 
+import java.lang.annotation.Annotation;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
+import org.jasmineliuliuliu.calgen.generators.EquationRequirement;
 import org.jasmineliuliuliu.calgen.generators.EquationsGenerator;
-import org.jasmineliuliuliu.calgen.generators.IntSubEquationsGenerator;
 import org.jasmineliuliuliu.calgen.models.equations.Equation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,22 +14,45 @@ import org.springframework.stereotype.Service;
 public class GeneratorService {
 
   @Autowired
-  private IntSubEquationsGenerator generators;
+  private HashMap<Annotation, List<EquationsGenerator>> generators1;
+  @Autowired
+  private HashMap<String, EquationsGenerator> generators;
+  @Autowired
+  EquationRequirement requirement;
 
-  public String getDescription(){
+  public String getDescription() {
     return """
         小学生计算题<br>
-        1. /add/{$n} - $n以内加法计算<br>
-        2. /sub/{$n} - $n以内减法计算<br>
-        3. /mul/{$n} - $n以内乘法计算<br>
-        4. /div/{$n} - $n以内除法计算<br>
-        5. /addOrSub/{$n} - $n以内加法或减法计算<br>
-        6. /mulOrDiv/{$n} - $n以内乘法或除法计算<br>
-        6. /mixTernary/{$n} - $n以内四则混合计算（两步）<br>
+        - /add?min={$n}&max={$m}&count={$c}&times10=true|false&float=0|1|2&precision={$p} - 加法计算<br>
+        - /sub?min={$n}&max={$m}&count={$c}&times10=true|false&float=0|1|2 - 减法计算<br>
+        - /mul?min={$n}&max={$m}&count={$c}&times10=true|false - 减法计算<br>
+        - /div?min={$n}&max={$m}&count={$c}&times10=true|false - 除法计算<br>
+        - /addOrSub?min={$n}&max={$m}&count={$c}&times10=true|false - 加法或减法计算<br>
+        - /mulOrDiv?min={$n}&max={$m}&count={$c}&10times=true|false - 乘法或除法计算<br>
+        - /mixTernary?min={$n}&max={$m}&count={$c}&10times=true|false - $n以内四则混合计算（两步）<br>
         """;
   }
 
-  public Set<Equation> generate3BOral(int count) {
-    return generators.generate(100,10,20);
+  public Set<Equation> generateFloatAddEquations(int count) {
+    return generators.get("floatAddEquationsGenerator").generate(count, requirement);
   }
+  public Set<Equation> generateFloatSubEquations(int count) {
+    return generators.get("floatSubEquationsGenerator").generate(count, requirement);
+  }
+  public Set<Equation> generateIntAddEquations(int count) {
+    return generators.get("intAddEquationsGenerator").generate(count, requirement);
+  }
+  public Set<Equation> generateIntSubEquations(int count) {
+    return generators.get("intSubEquationsGenerator").generate(count, requirement);
+  }
+  public Set<Equation> generateIntMulEquations(int count) {
+    return generators.get("intMulEquationsGenerator").generate(count, requirement);
+  }
+  public Set<Equation> generateIntDivEquations(int count) {
+    return generators.get("intDivEquationsGenerator").generate(count, requirement);
+  }
+  public Set<Equation> generateTernaryEquations(int count) {
+    return generators.get("ternaryEquationGenerator").generate(count, requirement);
+  }
+
 }

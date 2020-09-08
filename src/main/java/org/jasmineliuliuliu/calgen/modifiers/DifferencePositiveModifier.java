@@ -1,19 +1,17 @@
 package org.jasmineliuliuliu.calgen.modifiers;
 
+import org.jasmineliuliuliu.calgen.generators.EquationRequirement;
+import org.jasmineliuliuliu.calgen.models.Operator;
 import org.jasmineliuliuliu.calgen.models.equations.Equation;
+import org.jasmineliuliuliu.calgen.models.equations.FloatEquation;
 import org.jasmineliuliuliu.calgen.models.equations.IntEquation;
 import org.jasmineliuliuliu.calgen.models.equations.TernaryEquation;
-import org.jasmineliuliuliu.calgen.models.equations.FloatEquation;
-import org.jasmineliuliuliu.calgen.models.Operator;
-import org.springframework.stereotype.Component;
 
 /**
  * 减法算式修改器，保证差为正数。
  *
- * @param <E> Equation的子类，可能是{@code IntEquation}，{@code FloatEquation}或{@code
- *            TernaryEquation}
+ * @param <E> Equation的子类，可能是{@code IntEquation}，{@code FloatEquation}或{@code TernaryEquation}
  */
-@Component
 public class DifferencePositiveModifier<E extends Equation> implements
     PriorityEquationModifier<E> {
 
@@ -23,12 +21,12 @@ public class DifferencePositiveModifier<E extends Equation> implements
   }
 
   @Override
-  public boolean modifiable(E e) {
-    return e.getOp().equals(Operator.SUB);
+  public boolean modifiable(E e, EquationRequirement req) {
+    return e.getOp().equals(Operator.SUB) && req.isResultPositive();
   }
 
   @Override
-  public E modify(E e) {
+  public E modify(E e, EquationRequirement req) {
     if (e instanceof IntEquation ne && ne.result() < 0) {
       int right = ne.getRight();
       ne.setRight(ne.getLeft());

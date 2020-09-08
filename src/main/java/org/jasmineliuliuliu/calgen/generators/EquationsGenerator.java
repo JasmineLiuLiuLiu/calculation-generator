@@ -7,11 +7,11 @@ import org.jasmineliuliuliu.calgen.models.equations.Equation;
 
 public interface EquationsGenerator {
 
-  Equation generateOne(int... bounds);
+  Equation generateOne(EquationRequirement requirement);
 
-  default Set<Equation> generate(int count, int... bounds) {
+  default Set<Equation> generate(int count, EquationRequirement requirement) {
     return IntStream.range(0, count)
-        .mapToObj(i -> generateOne(bounds))
+        .mapToObj(i -> generateOne(requirement))
         .collect(Collectors.toSet());
   }
 }
