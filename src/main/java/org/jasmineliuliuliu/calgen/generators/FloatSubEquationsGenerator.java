@@ -2,15 +2,10 @@ package org.jasmineliuliuliu.calgen.generators;
 
 import static org.jasmineliuliuliu.calgen.models.Operator.SUB;
 
-import org.jasmineliuliuliu.calgen.generators.tags.Float;
-import org.jasmineliuliuliu.calgen.generators.tags.Sub;
 import org.jasmineliuliuliu.calgen.models.equations.Equation;
 import org.jasmineliuliuliu.calgen.models.equations.FloatEquation;
-import org.springframework.stereotype.Component;
 
-@Sub
-@Float
-@Component
+@Generator
 public class FloatSubEquationsGenerator extends AbstractEquationsGenerator {
 
   @Override

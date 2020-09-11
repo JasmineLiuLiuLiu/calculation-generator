@@ -10,7 +10,7 @@ import org.jasmineliuliuliu.calgen.models.equations.Equation;
  */
 public interface EquationModifier<E extends Equation> {
 
-  boolean modifiable(E e, EquationRequirement req);
+  boolean modifiable(Equation e, EquationRequirement req);
 
   E modify(E e, EquationRequirement req);
 }

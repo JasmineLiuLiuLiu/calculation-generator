@@ -7,6 +7,7 @@ import static org.jasmineliuliuliu.calgen.models.Operator.SUB;
 
 import org.jasmineliuliuliu.calgen.Utils;
 import org.jasmineliuliuliu.calgen.generators.EquationRequirement;
+import org.jasmineliuliuliu.calgen.models.equations.Equation;
 import org.jasmineliuliuliu.calgen.models.equations.TernaryEquation;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +21,8 @@ public class TernaryDivisionModifier implements
   }
 
   @Override
-  public boolean modifiable(TernaryEquation e, EquationRequirement req) {
-    return e.getOp().equals(DIV);
+  public boolean modifiable(Equation e, EquationRequirement req) {
+    return e instanceof TernaryEquation && e.getOp().equals(DIV);
   }
 
   @Override

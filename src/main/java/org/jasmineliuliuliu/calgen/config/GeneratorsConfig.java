@@ -1,16 +1,12 @@
 package org.jasmineliuliuliu.calgen.config;
 
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import org.jasmineliuliuliu.calgen.generators.EquationRequirement;
 import org.jasmineliuliuliu.calgen.generators.EquationsGenerator;
-import org.jasmineliuliuliu.calgen.generators.tags.GeneratorTags;
+import org.jasmineliuliuliu.calgen.generators.Generator;
 import org.jasmineliuliuliu.calgen.modifiers.DifferencePositiveModifier;
-import org.jasmineliuliuliu.calgen.modifiers.EquationModifier;
 import org.jasmineliuliuliu.calgen.modifiers.PriorityModifiers;
+import org.jasmineliuliuliu.calgen.modifiers.TernaryDivisionModifier;
 import org.jasmineliuliuliu.calgen.modifiers.TimesTenModifier;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -29,27 +25,9 @@ public class GeneratorsConfig implements ApplicationContextAware {
   }
 
   @Bean
-  public HashMap<Annotation, List<EquationsGenerator>> generatorsWithTag() {
-    HashMap<Annotation, List<EquationsGenerator>> generators = new HashMap<>();
-    applicationContext
-        .getBeansWithAnnotation(GeneratorTags.class)
-        .forEach((name, g) -> {
-          Arrays.stream(g.getClass().getAnnotations()).forEach(a -> {
-            if (a.annotationType().getAnnotation(GeneratorTags.class) != null) {
-              if (generators.get(a) == null) {
-                generators.put(a, new ArrayList<>());
-              }
-              generators.get(a).add((EquationsGenerator) g);
-            }
-          });
-        });
-    return generators;
-  }
-
-  @Bean
   public HashMap<String, EquationsGenerator> generators() {
     HashMap<String, EquationsGenerator> generators = new HashMap<>();
-    applicationContext.getBeansWithAnnotation(GeneratorTags.class).forEach((name, g) -> {
+    applicationContext.getBeansWithAnnotation(Generator.class).forEach((name, g) -> {
       if (g instanceof EquationsGenerator eg) {
         generators.put(name, eg);
       }
@@ -63,8 +41,9 @@ public class GeneratorsConfig implements ApplicationContextAware {
   }
 
   @Bean
-  public PriorityModifiers defaultModifiers(){
-    return new PriorityModifiers(new DifferencePositiveModifier<>(), new TimesTenModifier());
+  public PriorityModifiers defaultModifiers() {
+    return new PriorityModifiers(new DifferencePositiveModifier<>(), new TimesTenModifier(),
+        new TernaryDivisionModifier());
   }
 
 

@@ -2,20 +2,37 @@ package org.jasmineliuliuliu.calgen.generators;
 
 public class EquationRequirement {
 
-  private final int minLeft;
-  private final int maxLeft;
-  private final int minRight;
-  private final int maxRight;
-  private final int precision;
-  private final int times10;
-  private final boolean isResultPositive;
-  private final boolean isExactDivision;
+  private int minLeft;
+  private int maxLeft;
+  private int minRight;
+  private int maxRight;
+  private int minDivisor;
+  private int maxDivisor;
+  private int precision;
+  private int times10;
+  private boolean isResultPositive;
+  private boolean isExactDivision;
+
+  public EquationRequirement(EquationRequirement requirement) {
+    this.minLeft = requirement.minLeft();
+    this.maxLeft = requirement.maxLeft();
+    this.minRight = requirement.minRight();
+    this.maxRight = requirement.maxRight();
+    this.minDivisor = requirement.minDivisor();
+    this.maxDivisor = requirement.maxDivisor();
+    this.precision = requirement.precision();
+    this.times10 = requirement.times10();
+    this.isExactDivision = requirement.isExactDivision;
+    this.isResultPositive = requirement.isResultPositive;
+  }
 
   private EquationRequirement(Builder builder) {
     this.minLeft = builder.minLeft;
     this.maxLeft = builder.maxLeft;
     this.minRight = builder.minRight;
     this.maxRight = builder.maxRight;
+    this.minDivisor = builder.minDivisor;
+    this.maxDivisor = builder.maxDivisor;
     this.precision = builder.precision;
     this.times10 = builder.times10;
     this.isExactDivision = builder.isExactDivision;
@@ -38,6 +55,14 @@ public class EquationRequirement {
     return maxRight;
   }
 
+  public int minDivisor() {
+    return minDivisor;
+  }
+
+  public int maxDivisor() {
+    return maxDivisor;
+  }
+
   public int precision() {
     return precision;
   }
@@ -54,6 +79,38 @@ public class EquationRequirement {
     return isResultPositive;
   }
 
+  public void minLeft(int minLeft) {
+    this.minLeft = minLeft;
+  }
+
+  public void maxLeft(int maxLeft) {
+    this.maxLeft = maxLeft;
+  }
+
+  public void minRight(int minRight) {
+    this.minRight = minRight;
+  }
+
+  public void maxRight(int maxRight) {
+    this.maxRight = maxRight;
+  }
+
+  public void precision(int precision) {
+    this.precision = precision;
+  }
+
+  public void times10(int times10) {
+    this.times10 = times10;
+  }
+
+  public void resultPositive(boolean resultPositive) {
+    isResultPositive = resultPositive;
+  }
+
+  public void exactDivision(boolean exactDivision) {
+    isExactDivision = exactDivision;
+  }
+
   public static Builder builder() {
     return new Builder();
   }
@@ -64,6 +121,8 @@ public class EquationRequirement {
     private int maxLeft;
     private int minRight;
     private int maxRight;
+    private int minDivisor;
+    private int maxDivisor;
     private int precision;
     private int times10;
     private boolean isExactDivision;
@@ -74,6 +133,8 @@ public class EquationRequirement {
       maxLeft = 100;
       minRight = 10;
       maxRight = 100;
+      minDivisor = 2;
+      maxDivisor = 10;
       precision = 1;
       times10 = 2;
       isExactDivision = true;
@@ -97,6 +158,16 @@ public class EquationRequirement {
 
     public Builder maxRight(int maxRight) {
       this.maxRight = maxRight;
+      return this;
+    }
+
+    public Builder minDivisor(int minDivisor) {
+      this.minDivisor = minDivisor;
+      return this;
+    }
+
+    public Builder maxDivisor(int maxDivisor) {
+      this.maxDivisor = maxDivisor;
       return this;
     }
 

@@ -3,6 +3,7 @@ package org.jasmineliuliuliu.calgen.modifiers;
 import org.jasmineliuliuliu.calgen.Utils;
 import org.jasmineliuliuliu.calgen.generators.EquationRequirement;
 import org.jasmineliuliuliu.calgen.models.Operator;
+import org.jasmineliuliuliu.calgen.models.equations.Equation;
 import org.jasmineliuliuliu.calgen.models.equations.IntEquation;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +19,8 @@ public class ExactDivisionModifier implements PriorityEquationModifier<IntEquati
   }
 
   @Override
-  public boolean modifiable(IntEquation e, EquationRequirement req) {
-    return e.getOp().equals(Operator.DIV) && req.isExactDivision();
+  public boolean modifiable(Equation e, EquationRequirement req) {
+    return e instanceof IntEquation && e.getOp().equals(Operator.DIV) && req.isExactDivision();
   }
 
   @Override

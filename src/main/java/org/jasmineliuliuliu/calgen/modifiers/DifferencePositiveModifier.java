@@ -21,7 +21,7 @@ public class DifferencePositiveModifier<E extends Equation> implements
   }
 
   @Override
-  public boolean modifiable(E e, EquationRequirement req) {
+  public boolean modifiable(Equation e, EquationRequirement req) {
     return e.getOp().equals(Operator.SUB) && req.isResultPositive();
   }
 

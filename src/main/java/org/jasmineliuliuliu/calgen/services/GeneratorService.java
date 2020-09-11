@@ -1,8 +1,6 @@
 package org.jasmineliuliuliu.calgen.services;
 
-import java.lang.annotation.Annotation;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 import org.jasmineliuliuliu.calgen.generators.EquationRequirement;
 import org.jasmineliuliuliu.calgen.generators.EquationsGenerator;
@@ -14,11 +12,10 @@ import org.springframework.stereotype.Service;
 public class GeneratorService {
 
   @Autowired
-  private HashMap<Annotation, List<EquationsGenerator>> generators1;
-  @Autowired
   private HashMap<String, EquationsGenerator> generators;
+
   @Autowired
-  EquationRequirement requirement;
+  EquationRequirement req;
 
   public String getDescription() {
     return """
@@ -33,26 +30,8 @@ public class GeneratorService {
         """;
   }
 
-  public Set<Equation> generateFloatAddEquations(int count) {
-    return generators.get("floatAddEquationsGenerator").generate(count, requirement);
-  }
-  public Set<Equation> generateFloatSubEquations(int count) {
-    return generators.get("floatSubEquationsGenerator").generate(count, requirement);
-  }
-  public Set<Equation> generateIntAddEquations(int count) {
-    return generators.get("intAddEquationsGenerator").generate(count, requirement);
-  }
-  public Set<Equation> generateIntSubEquations(int count) {
-    return generators.get("intSubEquationsGenerator").generate(count, requirement);
-  }
-  public Set<Equation> generateIntMulEquations(int count) {
-    return generators.get("intMulEquationsGenerator").generate(count, requirement);
-  }
-  public Set<Equation> generateIntDivEquations(int count) {
-    return generators.get("intDivEquationsGenerator").generate(count, requirement);
-  }
-  public Set<Equation> generateTernaryEquations(int count) {
-    return generators.get("ternaryEquationGenerator").generate(count, requirement);
+  public Set<Equation> getEquations(String generatorName, int count) {
+    return generators.get(generatorName).generate(count, req);
   }
 
 }

@@ -22,6 +22,10 @@ public abstract class AbstractEquationsGenerator implements EquationsGenerator {
     return Utils.random().nextInt(req.minRight(), req.maxRight());
   }
 
+  protected static int iDivisor(EquationRequirement req) {
+    return Utils.random().nextInt(req.minDivisor(), req.maxDivisor());
+  }
+
   protected static float fLeft(EquationRequirement req) {
     return Utils.random().nextInt(req.minLeft(), req.maxLeft()) / (req.precision() * 10f);
   }
@@ -31,6 +35,6 @@ public abstract class AbstractEquationsGenerator implements EquationsGenerator {
   }
 
   protected static String fmt(EquationRequirement req) {
-    return String.format("%.%df%s%.%df", req.precision(), req.precision());
+    return "%." + req.precision() + "f%s%." + req.precision() + "f";
   }
 }
